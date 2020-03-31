@@ -12,6 +12,7 @@ import { addRecord } from "../../redux/actions";
 const Dashboard = () => {
   const dispatch = useDispatch();
   // const [data, setData] = useState<PersonalData[]>([]);
+
   const [personalData, setPersonalData] = useState<PersonalData>({
     name: "",
     height: "",

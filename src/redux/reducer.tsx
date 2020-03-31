@@ -1,11 +1,13 @@
 import { AppState } from "./types";
 import * as actionType from "./strings";
 
-const initState: AppState = {
-  data: []
-};
+const fromLocalDataJSON = localStorage.getItem("data");
 
-const reducer = (state: AppState = initState, action: any) => {
+const initState: AppState = fromLocalDataJSON == null ? {
+  data: []
+} : JSON.parse(fromLocalDataJSON);
+
+const reduce = (state: AppState = initState, action: any) => {
   switch (action.type) {
     case actionType.ADD_RECORD:
       return {
@@ -16,5 +18,11 @@ const reducer = (state: AppState = initState, action: any) => {
       return state;
   }
 };
+
+const reducer = (state: AppState = initState, action: any) => {
+  const newState: AppState = reduce(state, action);
+  localStorage.setItem("data", JSON.stringify(newState));
+  return newState;
+}
 
 export default reducer;
