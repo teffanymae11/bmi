@@ -1,28 +1,44 @@
-import React, { useState, useCallback } from "react"
-import { PersonalData } from "./types"
+import React, { useState, useCallback } from "react";
+import { PersonalData } from "./types";
 
-import { Container, SectionBlock } from '../styles'
+import { Container, SectionBlock } from "../styles";
 
-import Form from "../form"
+import Form from "../form";
 import BMIDisplay from "../bmi_display";
-import List from "../list"
+import List from "../list";
+import { useDispatch } from "react-redux";
+import { addRecord } from "../../redux/actions";
 
 const Dashboard = () => {
-  const [data, setData] = useState<PersonalData[]>([])
-  const [personalData, setPersonalData] = useState<PersonalData>({ name: '', height: '', weight: '', gender: '', age: '' });
+  const dispatch = useDispatch();
+  const [data, setData] = useState<PersonalData[]>([]);
+  const [personalData, setPersonalData] = useState<PersonalData>({
+    name: "",
+    height: "",
+    weight: "",
+    gender: "",
+    age: ""
+  });
 
-  const onChange: (event: React.ChangeEvent<HTMLInputElement>) => void = useCallback(
+  const onChange: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setPersonalData({ ...personalData, [event.target.name]: event.target.value });
+      setPersonalData({
+        ...personalData,
+        [event.target.name]: event.target.value
+      });
     },
-    [personalData],
-  )
+    [personalData]
+  );
 
   const onReset: () => void = () => {
-    setPersonalData({ name: '', height: '', weight: '', gender: '', age: '' });
-  }
+    setPersonalData({ name: "", height: "", weight: "", gender: "", age: "" });
+  };
 
-  const onSubmit: (event: React.FormEvent<HTMLFormElement>) => void = useCallback(
+  const onSubmit: (
+    event: React.FormEvent<HTMLFormElement>
+  ) => void = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
@@ -34,15 +50,33 @@ const Dashboard = () => {
         age: personalData.age
       };
 
+      
+      dispatch(addRecord(newPersonalData));
+
+
       setData([...data, newPersonalData]);
-      setPersonalData({ ...personalData, name: '', height: '', weight: '', gender: '', age: '' });
+      setPersonalData({
+        ...personalData,
+        name: "",
+        height: "",
+        weight: "",
+        gender: "",
+        age: ""
+      });
     },
-    [data, personalData],
-  )
+    [data, personalData]
+  );
 
   const onDisplay = (val: PersonalData) => {
-    setPersonalData({ ...personalData, name: val.name, height: val.height, weight: val.weight, gender: val.gender, age: val.age, })
-  }
+    setPersonalData({
+      ...personalData,
+      name: val.name,
+      height: val.height,
+      weight: val.weight,
+      gender: val.gender,
+      age: val.age
+    });
+  };
 
   return (
     <Container>
@@ -59,12 +93,9 @@ const Dashboard = () => {
         />
       </SectionBlock>
 
-      <List
-        data={data}
-        onDisplay={onDisplay}
-      />
+      <List data={data} onDisplay={onDisplay} />
     </Container>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
