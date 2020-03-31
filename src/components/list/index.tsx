@@ -1,14 +1,13 @@
 import React, { useState, useMemo } from 'react';
-import { FilterVars } from './types'
+import { PersonalData } from '../dashboard/types'
+import { ListVars, FilterVars } from './types'
 
 import { SectionBlock, ButtonGender, ButtonAge, Ul, Li } from '../styles'
-import { PersonalData } from '../../types';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../redux/types';
 
-import {onDisplay} from '../../redux/actions'
-
-const List = () => {
-  const dispatch = useDispatch();
+const List = ({ onDisplay }: ListVars) => {
+  const dataPersonal = useSelector((state: AppState) => state.data)
   const [filter, setFilter] = useState<FilterVars>({ male: true, minor: true })
   const [order, setOrder] = useState<boolean>(false)
 
@@ -40,13 +39,7 @@ const List = () => {
     minor: false,
   })
 
-  const data = localStorage.getItem("data");
-
-  const initState: PersonalData[] = data == null ? {
-    personalVars: []
-  } : JSON.parse(data);
-
-  const list = initState.filter((val: PersonalData) => {
+  const list = dataPersonal.filter((val: PersonalData) => {
     if (filter.minor && filter.male) return val.age < 18 && val.gender === "m"
     if (filter.minor && !filter.male) return val.age < 18 && val.gender === "f"
     if (!filter.minor && filter.male) return val.age >= 18 && val.gender === "m"
@@ -64,7 +57,7 @@ const List = () => {
         {
           list.map((val: PersonalData) => {
             return (
-              <Li key={val.name} onClick={() => { dispatch(onDisplay(val)) }}>Name: {val.name} -- Age: {val.age}</Li>
+              <Li key={val.name} onClick={() => { onDisplay(val) }}>Name: {val.name} -- Age: {val.age}</Li>
             )
           })
         }

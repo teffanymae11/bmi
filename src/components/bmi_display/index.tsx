@@ -1,10 +1,8 @@
 import React from 'react';
-import { AppState, PersonalData } from '../../types';
-import { useSelector } from 'react-redux';
+import { BMIVars } from './types';
 
-const BMIDisplay = () => {
-  const personalData:PersonalData[] = useSelector((state:AppState)=> state.personalVars)
-  const bmi = Number((personalData.weight / ((perosnalData.height * 0.01) * (perosnalData.height * 0.01))).toFixed(2))
+const BMIDisplay = ({ weight, height }: BMIVars) => {
+  const bmi = Number((weight / ((height * 0.01) * (height * 0.01))).toFixed(2))
   return (
     <>
       <h1>Body Mass Index</h1>
