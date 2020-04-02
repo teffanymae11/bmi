@@ -10,20 +10,12 @@ const initState: PersonalData = fromLocalDataJSON == null ?
         weight: 0,
         gender: "",
         age: ""
-    } : JSON.parse(fromLocalDataJSON);
+    }
+    : JSON.parse(fromLocalDataJSON);
 
 const reduce = (state: PersonalData = initState, action: any) => {
     let val = action.payload
     switch (action.type) {
-        case actionType.RESET_DATA:
-            return {
-                ...state,
-                name: "",
-                height: 0,
-                weight: 0,
-                gender: "",
-                age: ""
-            }
 
         case actionType.DISPLAY_DATA:
             return {
@@ -33,7 +25,7 @@ const reduce = (state: PersonalData = initState, action: any) => {
                 weight: val.weight,
                 gender: val.gender,
                 age: val.age
-              }
+            }
         default:
             return state;
     }

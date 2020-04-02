@@ -1,7 +1,7 @@
-import {PersonalData} from '../dashboard/types'
+import { PersonalData } from "../dashboard/types"
 
 export type ListVars = {
-    onDisplay: (val:PersonalData) => void,
+    onDisplay: (val: PersonalData) => void
 }
 
 export type FilterVars = {

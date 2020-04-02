@@ -3,14 +3,8 @@ import * as actionType from "./strings";
 
 export const addRecord = (newPersonalData: PersonalData) => {
   return {
-    type: actionType.ADD_RECORD,
+    type: actionType.SUBMIT_DATA,
     payload: newPersonalData
-  };
-};
-
-export const resetData = () => {
-  return {
-    type: actionType.RESET_DATA
   };
 };
 

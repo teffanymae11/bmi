@@ -7,11 +7,8 @@ const initState: PersonalData[] = fromLocalDataJSON == null ? [] : JSON.parse(fr
 
 const reduce = (state: PersonalData[] = initState, action: any) => {
   switch (action.type) {
-    case actionType.ADD_RECORD:
-      return {
-        ...state,
-        data: [...state, action.payload]
-      };
+    case actionType.SUBMIT_DATA:
+      return [...state, action.payload];
     default:
       return state;
   }

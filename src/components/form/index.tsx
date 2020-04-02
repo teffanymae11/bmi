@@ -3,7 +3,7 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { PersonalData } from '../dashboard/types';
 import { useDispatch } from 'react-redux';
-import { addRecord, resetData } from '../../redux/actions';
+import { addRecord } from '../../redux/actions';
 
 const validationSchema: Yup.ObjectSchema<PersonalData> = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -23,7 +23,7 @@ const Form = () => {
     gender: '',
     age: ''
   }
-  
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
@@ -35,9 +35,8 @@ const Form = () => {
         gender: values.gender,
         age: values.age
       };
-
       dispatch(addRecord(newPersonalData));
-      dispatch(resetData())
+      formik.resetForm()
     },
   });
 
@@ -110,10 +109,7 @@ const Form = () => {
         <h1>Body Mass Index</h1>
         {isNaN(bmi) ? null : <h2>{bmi}</h2>}
       </div>
-
     </>
-
-
   )
 }
 
