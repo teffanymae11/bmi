@@ -1,50 +1,36 @@
 import React from 'react';
 import { FormVars } from './types'
-
+import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
-const validate = (values: any) => {
-  const errors = {
+type FormikProps = {
+  name: string,
+  height: number | '',
+  weight: number | '',
+  gender: string,
+  age: number | ''
+}
+
+const validationSchema: Yup.ObjectSchema<FormikProps> = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  height: Yup.number().required("Height is required"),
+  weight: Yup.number().required("Weight is required"),
+  gender: Yup.string().required("Gender is required"),
+  age: Yup.number().required("Age is required"),
+}); 
+
+
+const Form = ({ personalData, onChange, onReset, onSubmit }: FormVars) => {
+  const initialValues:FormikProps = {
     name: '',
     height: '',
     weight: '',
     gender: '',
     age: ''
-  };
-  if (!values.name) {
-    errors.name = 'Required';
-  } else if (values.name.length > 50) {
-    errors.name = 'Must be 50 characters or less';
   }
-
-  if (!values.weight) {
-    errors.weight = 'Required';
-  } else if (values.weight.length > 20) {
-    errors.weight = 'Must be 20 characters or less';
-  }
-
-  if (!values.age) {
-    errors.age = 'Required';
-  } else if (values.age.length >= 3) {
-    errors.age = 'Must enter age';
-  }
-
-
-  return errors;
-};
-
-
-const Form = ({ personalData, onChange, onReset, onSubmit }: FormVars) => {
-
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      height: '',
-      weight: '',
-      gender: '',
-      age: ''
-    },
-    validate,
+    initialValues: initialValues,
+    validationSchema: validationSchema,
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
     },
