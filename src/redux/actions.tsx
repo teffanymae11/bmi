@@ -7,3 +7,16 @@ export const addRecord = (newPersonalData: PersonalData) => {
     payload: newPersonalData
   };
 };
+
+export const resetData = () => {
+  return {
+    type: actionType.RESET_DATA
+  };
+};
+
+export const displayData = (val:PersonalData) => {
+  return {
+    type: actionType.DISPLAY_DATA,
+    payload: val
+  };
+};

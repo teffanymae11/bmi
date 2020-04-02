@@ -2,37 +2,30 @@ import React from 'react';
 import { FormVars } from './types'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
+import { PersonalData } from '../dashboard/types';
 
-type FormikProps = {
-  name: string,
-  height: number | '',
-  weight: number | '',
-  gender: string,
-  age: number | ''
-}
-
-const validationSchema: Yup.ObjectSchema<FormikProps> = Yup.object().shape({
+const validationSchema: Yup.ObjectSchema<PersonalData> = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   height: Yup.number().required("Height is required"),
   weight: Yup.number().required("Weight is required"),
   gender: Yup.string().required("Gender is required"),
   age: Yup.number().required("Age is required"),
-}); 
+});
 
 
-const Form = ({ personalData, onChange, onReset, onSubmit }: FormVars) => {
-  const initialValues:FormikProps = {
+const Form = ({ onSubmit }: FormVars) => {
+  const initialValues: PersonalData = {
     name: '',
-    height: '',
-    weight: '',
+    height: 0,
+    weight: 0,
     gender: '',
     age: ''
   }
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: (values: any) => {
+      onSubmit(values)
     },
   });
 
