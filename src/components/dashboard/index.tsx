@@ -21,8 +21,8 @@ const Dashboard = () => {
   //   age: ""
   // });
 
-  const personalData:PersonalData = useSelector((state:any) => state.personalDataReducer)
-console.log(personalData);
+  const personalData = useSelector((state: any) => state.personalData)
+  console.log(personalData);
 
   const onSubmit: (
     event: React.FormEvent<HTMLFormElement>
@@ -76,8 +76,8 @@ console.log(personalData);
           onSubmit={onSubmit}
         />
         <BMIDisplay
-          weight={personalData.weight}
-          height={personalData.height}
+          weight={Number(personalData.weight)}
+          height={Number(personalData.height)}
         />
       </SectionBlock>
 

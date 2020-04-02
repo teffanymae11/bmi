@@ -4,10 +4,9 @@ import { ListVars, FilterVars } from './types'
 
 import { SectionBlock, ButtonGender, ButtonAge, Ul, Li } from '../styles'
 import { useSelector } from 'react-redux';
-import { AppState } from '../../redux/types';
 
 const List = ({ onDisplay }: ListVars) => {
-  const dataPersonal = useSelector((state: AppState) => state.data)
+  const dataPersonal = useSelector((state: any) => state.data)
   const [filter, setFilter] = useState<FilterVars>({ male: true, minor: true })
   const [order, setOrder] = useState<boolean>(false)
 
