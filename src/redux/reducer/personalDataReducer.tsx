@@ -24,7 +24,7 @@ const reduce = (state: PersonalData = initState, action: any) => {
                 height: 0,
                 weight: 0,
                 gender: '',
-                age: 0
+                age: ''
             }
 
         case actionType.DISPLAY_DATA:

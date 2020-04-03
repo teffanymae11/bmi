@@ -15,9 +15,9 @@ const validationSchema: Yup.ObjectSchema<PersonalData> = Yup.object().shape({
 
 const Form = () => {
   const dispatch = useDispatch();
-  const personalData: PersonalData | undefined = useSelector((state: any) => state.personalData)
+  const personalData: PersonalData | null = useSelector((state: any) => state.personalData)
 
-  const initialValues: PersonalData = {
+  const initialValues: PersonalData | null = {
     name: '',
     height: 0,
     weight: 0,
@@ -26,9 +26,9 @@ const Form = () => {
   }
 
   const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: validationSchema,
-    onSubmit: (values: any) => {
+    initialValues,
+    validationSchema,
+    onSubmit: (values: PersonalData) => {
       const newPersonalData = {
         name: values.name,
         height: values.height,
@@ -42,11 +42,11 @@ const Form = () => {
   });
 
   useEffect(() => {
-    if (personalData) {
+    if (personalData && personalData.name !== "") {
       formik.setValues(personalData);
       dispatch(resetData())
     }
-  }, [dispatch])
+  }, [dispatch, formik, personalData])
 
   const bmi: number | undefined = Number((formik.values.weight / ((formik.values.height * 0.01) * (formik.values.height * 0.01))).toFixed(2))
 
@@ -67,6 +67,7 @@ const Form = () => {
           type="number"
           name="height"
           placeholder="Height"
+          min="0"
           value={formik.values.height}
           onBlur={formik.handleBlur}
           onChange={formik.handleChange} />
@@ -77,6 +78,7 @@ const Form = () => {
           type="number"
           name="weight"
           placeholder="Weight"
+          min="0"
           value={formik.values.weight}
           onBlur={formik.handleBlur}
           onChange={formik.handleChange} />
@@ -101,6 +103,7 @@ const Form = () => {
           type="number"
           name="age"
           placeholder="Age"
+          min="0"
           value={formik.values.age}
           onBlur={formik.handleBlur}
           onChange={formik.handleChange} />
