@@ -6,26 +6,34 @@ import { PersonalData } from '../dashboard/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRecord, resetData } from '../../redux/actions';
 
-const Logger = () => {
 
-  const formik = useFormikContext();
+const BMI = () => {
+  const dispatch = useDispatch();
+  const personalData: PersonalData | null = useSelector((state: any) => state.personalData)
 
-  console.log( formik.values);
-  console.log( formik.values.weight);
+  const { values, setValues } = useFormikContext<PersonalData>();
+
+  useEffect(() => {
+    if (personalData && personalData.name !== "") {
+      setValues(personalData);
+      dispatch(resetData())
+    }
+  }, [dispatch, setValues, personalData])
+
+  const bmi: number | undefined = Number((values.weight / ((values.height * 0.01) * (values.height * 0.01))).toFixed(2))
 
   return (
     <>
+      <div>
+        <h1>Body Mass Index</h1>
+        {isNaN(bmi) ? null : <h2>{bmi}</h2>}
+      </div>
     </>
   );
 };
 
-// useEffect(() => {
-// }, [formik.values]);
-//  const bmi: number | undefined = Number((formik.values.weight / ((formik.values.height * 0.01) * (formik.values.height * 0.01))).toFixed(2))
-
 const Form = () => {
   const dispatch = useDispatch();
-  const personalData: PersonalData | null = useSelector((state: any) => state.personalData)
 
   const initialValues: PersonalData | null = {
     name: '',
@@ -54,28 +62,6 @@ const Form = () => {
     dispatch(addRecord(newPersonalData));
     resetForm();
   }
-
-  // const formik = useFormikContext();
-
-  // useEffect(() => {
-  //   if (personalData && personalData.name !== "") {
-  //     formik.setValues(personalData);
-  //     dispatch(resetData())
-  //   }
-  // }, [dispatch, formik, personalData])
-
-  // const BMI = () => {
-
-
-  //  const bmi: number | undefined = Number((formik.weight / ((formik.height * 0.01) * (formik.height * 0.01))).toFixed(2))
-
-  //   return (
-  //     <div>
-  //       <h1>Body Mass Index</h1>
-  //      {isNaN(bmi) ? null : <h2>{bmi}</h2>}
-  //     </div>
-  //   )
-  // }
 
   return (
     <>
@@ -151,12 +137,11 @@ const Form = () => {
               </div>
             </form>
 
-            <Logger />
+            <BMI />
           </>
         )}
       </Formik>
 
-      {/* <BMI /> */}
     </>
   )
 }
