@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { PersonalData } from '../dashboard/types';
@@ -15,7 +15,7 @@ const validationSchema: Yup.ObjectSchema<PersonalData> = Yup.object().shape({
 
 const Form = () => {
   const dispatch = useDispatch();
-  const personalData: PersonalData | undefined = useSelector((state:any) => state.personalData)
+  const personalData: PersonalData | undefined = useSelector((state: any) => state.personalData)
 
   const initialValues: PersonalData = {
     name: '',
@@ -44,8 +44,8 @@ const Form = () => {
   useEffect(() => {
     if (personalData) {
       formik.setValues(personalData);
+      dispatch(resetData())
     }
-    dispatch(resetData())
   }, [dispatch])
 
   const bmi: number | undefined = Number((formik.values.weight / ((formik.values.height * 0.01) * (formik.values.height * 0.01))).toFixed(2))
