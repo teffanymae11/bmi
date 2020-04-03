@@ -14,3 +14,9 @@ export const displayData = (val:PersonalData) => {
     payload: val
   };
 };
+
+export const resetData = () => {
+  return {
+    type: actionType.RESET_DATA
+  };
+};

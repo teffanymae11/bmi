@@ -17,6 +17,16 @@ const reduce = (state: PersonalData = initState, action: any) => {
     let val = action.payload
     switch (action.type) {
 
+        case actionType.RESET_DATA:
+            return {
+                ...state,
+                name: '',
+                height: 0,
+                weight: 0,
+                gender: '',
+                age: 0
+            }
+
         case actionType.DISPLAY_DATA:
             return {
                 ...state,

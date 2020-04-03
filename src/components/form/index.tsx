@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { PersonalData } from '../dashboard/types';
-import { useDispatch } from 'react-redux';
-import { addRecord } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { addRecord, resetData } from '../../redux/actions';
 
 const validationSchema: Yup.ObjectSchema<PersonalData> = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -15,6 +15,7 @@ const validationSchema: Yup.ObjectSchema<PersonalData> = Yup.object().shape({
 
 const Form = () => {
   const dispatch = useDispatch();
+  const personalData: PersonalData | undefined = useSelector((state:any) => state.personalData)
 
   const initialValues: PersonalData = {
     name: '',
@@ -39,6 +40,13 @@ const Form = () => {
       formik.resetForm()
     },
   });
+
+  useEffect(() => {
+    if (personalData) {
+      formik.setValues(personalData);
+    }
+    dispatch(resetData())
+  }, [dispatch])
 
   const bmi: number | undefined = Number((formik.values.weight / ((formik.values.height * 0.01) * (formik.values.height * 0.01))).toFixed(2))
 
