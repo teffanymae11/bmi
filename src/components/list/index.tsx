@@ -1,12 +1,15 @@
 import React, { useState, useMemo } from 'react';
 import { PersonalData } from '../dashboard/types'
-import { FilterVars, ListVars } from './types'
+import { FilterVars} from './types'
 
 import { SectionBlock, ButtonGender, ButtonAge, Ul, Li } from '../styles'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { displayData } from '../../redux/actions';
 
-const List:React.FC<ListVars> = ({onDisplay}) => {
+const List = () => {
+  const dispatch = useDispatch()
   const data = useSelector((state: any) => state.data)
+
   const [filter, setFilter] = useState<FilterVars>({ male: true, minor: true })
   const [order, setOrder] = useState<boolean>(false)
 
@@ -51,7 +54,9 @@ const List:React.FC<ListVars> = ({onDisplay}) => {
   });
 
   const filterShow = useMemo(() => {
-
+    const onDisplay = (val: PersonalData) => {
+      dispatch(displayData(val))
+    };
     return (
       <Ul>
         {
@@ -63,7 +68,7 @@ const List:React.FC<ListVars> = ({onDisplay}) => {
         }
       </Ul>
     )
-  }, [list, onDisplay])
+  }, [list, dispatch])
   
   return (
     <SectionBlock>
