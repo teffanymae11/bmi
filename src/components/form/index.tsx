@@ -23,10 +23,19 @@ const BMI = () => {
   const bmi: number | undefined = Number((values.weight / ((values.height * 0.01) * (values.height * 0.01))).toFixed(2))
 
   return (
+<<<<<<< HEAD
     <div>
       <h1>Body Mass Index</h1>
       {isNaN(bmi) ? null : <h2>{bmi}</h2>}
     </div>
+=======
+    <>
+      <div>
+        <h1>Body Mass Index</h1>
+        {isNaN(bmi) ? null : <h2>{bmi}</h2>}
+      </div>
+    </>
+>>>>>>> 827ab7fb22496be00f9a2358d5f7e19a7b3c728e
   );
 };
 
@@ -62,6 +71,7 @@ const Form = () => {
   }
 
   return (
+<<<<<<< HEAD
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -138,6 +148,87 @@ const Form = () => {
       )}
     </Formik>
 
+=======
+    <>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}>
+
+        {formik => (
+          <>
+            <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={formik.values.name}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange} />
+              {formik.touched.name && formik.errors.name ? (
+                <div>{formik.errors.name}</div>
+              ) : null}
+              <input
+                type="number"
+                name="height"
+                placeholder="Height"
+                min="0"
+                value={formik.values.height}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange} />
+              {formik.touched.height && formik.errors.height ? (
+                <div>{formik.errors.height}</div>
+              ) : null}
+              <input
+                type="number"
+                name="weight"
+                placeholder="Weight"
+                min="0"
+                value={formik.values.weight}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange} />
+              {formik.touched.weight && formik.errors.weight ? (
+                <div>{formik.errors.weight}</div>
+              ) : null}
+              <input
+                type="radio"
+                name="gender"
+                value="m"
+                checked={formik.values.gender === "m"}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange} /> Male
+            <input
+                type="radio"
+                name="gender"
+                value="f"
+                checked={formik.values.gender === "f"}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange} /> Female
+            <input
+                type="number"
+                name="age"
+                placeholder="Age"
+                min="0"
+                value={formik.values.age}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange} />
+              {formik.touched.age && formik.errors.age ? (
+                <div>{formik.errors.age}</div>
+              ) : null}
+              <div>
+                <button type="reset" >Reset</button>
+                <button type="submit">Add Record</button>
+              </div>
+            </form>
+
+            <BMI />
+          </>
+        )}
+      </Formik>
+
+    </>
+>>>>>>> 827ab7fb22496be00f9a2358d5f7e19a7b3c728e
   )
 }
 
