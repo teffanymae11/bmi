@@ -88,9 +88,6 @@ const Form = () => {
               value={formik.values.height}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange} />
-            {formik.touched.height && formik.errors.height ? (
-              <div>{formik.errors.height}</div>
-            ) : null}
             <input
               type="number"
               name="weight"
@@ -99,9 +96,6 @@ const Form = () => {
               value={formik.values.weight}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange} />
-            {formik.touched.weight && formik.errors.weight ? (
-              <div>{formik.errors.weight}</div>
-            ) : null}
             <input
               type="radio"
               name="gender"
@@ -128,8 +122,8 @@ const Form = () => {
               <div>{formik.errors.age}</div>
             ) : null}
             <div>
-              <button type="reset" >Reset</button>
-              <button type="submit">Add Record</button>
+              <button data-testid="reset" type="reset" >Reset</button>
+              <button data-testid="submit" type="submit">Add Record</button>
             </div>
           </form>
 

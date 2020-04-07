@@ -1,75 +1,89 @@
-import React, { useState, useMemo } from 'react';
-import { PersonalData } from '../dashboard/types'
-import { FilterVars} from './types'
+import React, { useState, useMemo } from "react";
+import { PersonalData } from "../dashboard/types";
+import { FilterVars } from "./types";
 
-import { SectionBlock, ButtonGender, ButtonAge, Ul, Li } from '../styles'
-import { useSelector, useDispatch } from 'react-redux';
-import { displayData } from '../../redux/actions';
+import { SectionBlock, ButtonGender, ButtonAge, Ul, Li } from "../styles";
+import { useSelector, useDispatch } from "react-redux";
+import { displayData } from "../../redux/actions";
 
 const List = () => {
-  const dispatch = useDispatch()
-  const data = useSelector((state: any) => state.data)
+  const dispatch = useDispatch();
+  const data: Array<any> = useSelector((state: any) => state.data);
 
-  const [filter, setFilter] = useState<FilterVars>({ male: true, minor: true })
-  const [order, setOrder] = useState<boolean>(false)
+  const [filter, setFilter] = useState<FilterVars>({ male: true, minor: true });
+  const [order, setOrder] = useState<boolean>(false);
 
   const orderAssending = () => {
-    setOrder(false)
-  }
+    setOrder(false);
+  };
 
   const orderDescending = () => {
-    setOrder(true)
-  }
+    setOrder(true);
+  };
 
-  const filterMale = () => setFilter({
-    ...filter,
-    male: true,
-  })
+  const filterMale = () =>
+    setFilter({
+      ...filter,
+      male: true,
+    });
 
-  const filterFemale = () => setFilter({
-    ...filter,
-    male: false,
-  })
+  const filterFemale = () =>
+    setFilter({
+      ...filter,
+      male: false,
+    });
 
-  const filterMinor = () => setFilter({
-    ...filter,
-    minor: true,
-  })
+  const filterMinor = () =>
+    setFilter({
+      ...filter,
+      minor: true,
+    });
 
-  const filterAdult = () => setFilter({
-    ...filter,
-    minor: false,
-  })
+  const filterAdult = () =>
+    setFilter({
+      ...filter,
+      minor: false,
+    });
 
   const list = data.filter((val: PersonalData) => {
-    if (filter.minor && filter.male) return val.age < 18 && val.gender === "m"
-    if (filter.minor && !filter.male) return val.age < 18 && val.gender === "f"
-    if (!filter.minor && filter.male) return val.age >= 18 && val.gender === "m"
-    return val.age >= 18 && val.gender === "f"
-  }).sort((a: PersonalData, b: PersonalData) => {
-    var textA = a.name.toUpperCase();
-    var textB = b.name.toUpperCase();
-    if (order) return textB.localeCompare(textA);
-    return textA.localeCompare(textB);
-  });
+      if (filter.minor && filter.male)
+        return val.age < 18 && val.gender === "m";
+      if (filter.minor && !filter.male)
+        return val.age < 18 && val.gender === "f";
+      if (!filter.minor && filter.male)
+        return val.age >= 18 && val.gender === "m";
+      else
+        return val.age >= 18 && val.gender === "f";
+    }).sort((a: PersonalData, b: PersonalData) => {
+      var textA = a.name.toUpperCase();
+      var textB = b.name.toUpperCase();
+      if (order) return textB.localeCompare(textA);
+      return textA.localeCompare(textB);
+    });
 
   const filterShow = useMemo(() => {
     const onDisplay = (val: PersonalData) => {
-      dispatch(displayData(val))
+      dispatch(displayData(val));
     };
     return (
       <Ul>
-        {
-          list.map((val: PersonalData) => {
-            return (
-              <Li key={val.name} onClick={() => { onDisplay(val) }}>Name: {val.name} -- Age: {val.age}</Li>
-            )
-          })
-        }
+        {list.map((val: PersonalData) => {
+          return (
+            <Li
+              data-testid="testMe"
+              key={val.name}
+              onClick={() => {
+                onDisplay(val);
+              }}
+            >
+              Name: {val.name} -- Age: {val.age}
+            </Li>
+          );
+        })}
       </Ul>
-    )
-  }, [list, dispatch])
-  
+    );
+  }, [list, dispatch]);
+
   return (
     <SectionBlock>
       <div>
@@ -87,13 +101,9 @@ const List = () => {
           <button onClick={filterAdult}>Adult</button>
         </ButtonAge>
       </div>
-      {
-        <>
-          {filterShow}
-        </>
-      }
+      {<>{filterShow}</>}
     </SectionBlock>
-  )
-}
+  );
+};
 
 export default List;
